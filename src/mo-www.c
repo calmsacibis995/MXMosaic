@@ -1038,7 +1038,7 @@ char *mo_tmpnam (char *url)
   char *tmp = (char *)malloc (sizeof (char) * L_tmpnam);
   char *tmp_dir = get_pref_string(eTMP_DIRECTORY);
 
-  tmpnam (tmp);
+  mkstemp(tmp);
 
   if (!tmp_dir)
     {

@@ -1269,7 +1269,7 @@ FILE *fp;
                 return(MCCI_FAIL);
                 }
 
-	sprintf(buff,"Content-Length: %d \r\n",fileInfo.st_size);
+	sprintf(buff,"Content-Length: %ld \r\n",fileInfo.st_size);
 	length = strlen(buff);
         if (length != NetServerWrite(client,buff,length)) {
                 return(MCCI_FAIL);

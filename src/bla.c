@@ -205,7 +205,7 @@ HTStream* me = (HTStream*)malloc(sizeof(HTStream));
 
 	me->isa = &CCIout;
 
-	(void) tmpnam(me->fileName);
+	(void) mkstemp(me->fileName);
 	if (!(me->fp = fopen(me->fileName,"w"))) {
 		/*error, can't open tmp file */
 		return(sink);

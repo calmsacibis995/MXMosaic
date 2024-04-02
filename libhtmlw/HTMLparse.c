@@ -75,6 +75,7 @@ extern struct mark_up *AddObj();
 
 int NoBodyColors(Widget w);
 int NoBodyImages(Widget w);
+int ParseMarkType(char *str);
 
 char *ParseMarkTag();
 
@@ -946,7 +947,7 @@ HTMLParse(old_list, str, hw)
 	if (htmlwTrace) {
 #ifndef VMS
 		gettimeofday(&Tv, &Tz);
-		fprintf(stderr, "HTMLParse enter (%d.%d)\n", Tv.tv_sec, Tv.tv_usec);
+		fprintf(stderr, "HTMLParse enter (%ld.%ld)\n", Tv.tv_sec, Tv.tv_usec);
 #else
                 fprintf(stderr, "HTMLParse enter (%s)\n", asctime(localtime(&clock)));
 #endif
@@ -1177,7 +1178,7 @@ HTMLParse(old_list, str, hw)
 	if (htmlwTrace) {
 #ifndef VMS
 		gettimeofday(&Tv, &Tz);
-		fprintf(stderr, "HTMLParse exit (%d.%d)\n", Tv.tv_sec, Tv.tv_usec);
+		fprintf(stderr, "HTMLParse exit (%ld.%ld)\n", Tv.tv_sec, Tv.tv_usec);
 #else
                 fprintf(stderr, "HTMLParse exit (%s)\n", asctime(localtime(&clock)));
 #endif
