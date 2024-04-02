@@ -120,7 +120,7 @@ typedef enum
 /* -------------------------------- MACROS -------------------------------- */
 /* ------------------------------------------------------------------------ */
 
-#define MO_VERSION_STRING "2.7b6" // SAM
+#define MO_VERSION_STRING "2.7b7" // SAM
 #define MO_GO_NCSA_COUNT 3  /* Go to the NCSA home page thrice*/
 #define MO_HELP_ON_VERSION_DOCUMENT \
   mo_assemble_help_url ("help-on-version-2.7b5.html")
@@ -135,7 +135,7 @@ typedef enum
 /* This must be a straight string as it is included into a struct;
    no tricks. */
 #define HOME_PAGE_DEFAULT \
-  "http://www.ncsa.uiuc.edu/SDG/Software/Mosaic/NCSAMosaicHome.html"
+  "http://www.google.com"
 #endif /* not HOME_PAGE_DEFAULT */
 
 #ifndef WHATSNEW_PAGE_DEFAULT
