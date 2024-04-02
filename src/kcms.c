@@ -54,6 +54,7 @@
 #include "../config.h"
 #include "kcms.h"
 
+int KCMS_Enabled, KCMS_Return_Format;
 
 void CheckKCMS(void) {
 

@@ -59,6 +59,8 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -173,7 +175,7 @@ ListenAddress socketFD;
 {
 int newSocketFD;
 struct sockaddr_in clientAddress;
-int clientAddressLength;
+socklen_t clientAddressLength;
 PortDescriptor *c;
 
 
@@ -232,12 +234,14 @@ int NetCloseConnection(c)
 PortDescriptor *c;
 {
 	close(c->socketFD);
+	return(0);
 }
 
 int NetCloseAcceptPort(s)
 int s;
 {
 	close(s);
+	return(0);
 }
 
 

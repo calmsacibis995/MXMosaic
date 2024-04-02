@@ -80,10 +80,6 @@
  *
  */
 
-#include <sys/time.h>
-struct timeval Tv;
-struct timezone Tz;
-
 #include "mosaic.h"
 #include "xpmread.h"
 

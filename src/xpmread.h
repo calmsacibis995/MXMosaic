@@ -66,6 +66,11 @@
 #ifndef __XPMREAD_H__
 #define __XPMREAD_H__
 
+#include <sys/time.h>
+
+extern struct timeval Tv;
+extern struct timezone Tz;
+
 unsigned char *ReadXpm3Pixmap(FILE *fp, char *datafile, int *w, int *h,
                               XColor *colrs, int *bg);
 unsigned char *ProcessXpm3Data(Widget wid, char **xpmdata, int *w,
