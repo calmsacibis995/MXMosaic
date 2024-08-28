@@ -52,7 +52,7 @@
  * mosaic-x@ncsa.uiuc.edu.                                                  *
  ****************************************************************************/
 
-/* Author: DXP
+/* Author: DXP 
 
  A lot of this is copied from the PNGLIB file example.c
 
@@ -63,7 +63,7 @@
 
     March 21 1996 - DXP
                     Fixed some interlacing problems.
-
+                  
 */
 
 #include "config.h"
@@ -78,7 +78,6 @@
 #include <setjmp.h>
 
 #define MAX(x,y)  (((x) > (y)) ? (x) : (y))
-#define PNG_BYTES_TO_CHECK 4
 
 #ifndef DISABLE_TRACE
 extern int srcTrace;
@@ -95,110 +94,134 @@ ReadPNG(FILE *infile,int *width, int *height, XColor *colrs)
     png_struct *png_ptr;
     png_info *info_ptr;
 
-    double screen_gamma;
+    png_uint_32 raw_width, raw_height, rowbytes;
+    int bit_depth, color_type, interlace_type, compression_type, filter_type;
 
-    png_byte *png_pixels=NULL, **row_pointers[*height];
-    int i, j, bit_depth, color_type, num_palette, interlace_type;
+    png_uint_32 have_palette;
+    png_colorp palette;
+    int num_palette;
+    png_uint_16p hist = NULL;
+
+    double gamma, screen_gamma;
+
+    png_byte *png_pixels=NULL, **row_pointers=NULL;
+    int i, j;
+
+    unsigned int packets;
 
     png_color std_color_cube[216];
-    png_colorp palette;
 
-
-    /* first check to see if its a valid PNG file. If not, return. */
-    /* we assume that infile is a valid filepointer */
+    
+        /* first check to see if its a valid PNG file. If not, return. */
+        /* we assume that infile is a valid filepointer */
     {
-        png_byte buf[PNG_BYTES_TO_CHECK];
-
-        if (fread(buf, 1, PNG_BYTES_TO_CHECK, infile) != PNG_BYTES_TO_CHECK)
+        int ret;
+        png_byte buf[8];
+        
+        ret = fread(buf, 1, 8, infile);
+        
+        if(ret != 8)
             return 0;
-
-        return(!png_sig_cmp(buf, 0, PNG_BYTES_TO_CHECK));
+        
+        ret = png_sig_cmp(buf, 0, 8);
+        
+        if(ret)
+            return(0);
     }
 
-    /* allocate the structures */
+        /* OK, it is a valid PNG file, so let's rewind it, and start 
+           decoding it */
+    rewind(infile);
+
+        /* allocate the structures */
+    /*png_ptr = (png_struct *)malloc(sizeof(png_struct));*/
     png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if(!png_ptr)
-		fclose(infile);
         return 0;
 
     /* initialize the structures */
     info_ptr = png_create_info_struct(png_ptr);
     if(!info_ptr) {
-        fclose(infile);
-        png_destroy_read_struct(png_ptr, NULL, NULL);
+        /*free(png_ptr);*/
         return 0;
     }
 
-    /* Establish the setjmp return context for png_error to use. */
+        /* Establish the setjmp return context for png_error to use. */
     if (setjmp(png_jmpbuf(png_ptr))) {
-
+        
 #ifndef DISABLE_TRACE
         if (srcTrace) {
             fprintf(stderr, "\n!!!libpng read error!!!\n");
         }
 #endif
 
-        png_destroy_read_struct(png_ptr, info_ptr, NULL);
-        fclose(infile);
-		
+        /*png_read_destroy(png_ptr, info_ptr, (png_info *)0); */
+	png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+
         if(png_pixels != NULL)
             free((char *)png_pixels);
-
         if(row_pointers != NULL)
             free((png_byte **)row_pointers);
+                
+        /*free((char *)png_ptr);*/
+        free((char *)info_ptr);
         
         return 0;
     }
 
 #ifdef SAM_NO
     /* SWP -- Hopefully to fix cores on bad PNG files */
-    png_set_message_fn(png_ptr,png_get_msg_ptr(png_ptr),NULL,NULL);
+    png_set_message_fn(png_ptr,png_get_msg_ptr(png_ptr),NULL,NULL); 
 #endif
 
     /*png_read_init(png_ptr);*/
-
+    
         /* set up the input control */
     png_init_io(png_ptr, infile);
-
+    
         /* read the file information */
     png_read_info(png_ptr, info_ptr);
-
+    
         /* setup other stuff using the fields of png_info. */
+    
+    png_get_IHDR(png_ptr, info_ptr, &raw_width, &raw_height, &bit_depth,
+                 &color_type, &interlace_type, &compression_type,
+                 &filter_type);
+    rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+    have_palette = png_get_PLTE(png_ptr, info_ptr, &palette, &num_palette);
 
-    png_get_IHDR(png_ptr, info_ptr, width, height, &bit_depth, &color_type, &interlace_type, NULL, NULL);
+    *width = (int)raw_width;
+    *height = (int)raw_height;
 
 #ifndef DISABLE_TRACE
     if (srcTrace) {
-        fprintf(stderr,"\n\nBEFORE\nwidth = %ls\n", width);
-        fprintf(stderr,"height = %ls\n", height);
+        fprintf(stderr,"\n\nBEFORE\nwidth = %d\n", *width);
+        fprintf(stderr,"height = %d\n", *height);
         fprintf(stderr,"bit depth = %d\n", bit_depth);
         fprintf(stderr,"color type = %d\n", color_type);
+        fprintf(stderr,"compression type = %d\n", compression_type);
+        fprintf(stderr,"filter type = %d\n", filter_type);
         fprintf(stderr,"interlace type = %d\n", interlace_type);
-        /*
-        fprintf(stderr,"compression type = %d\n", info_ptr->compression_type);
-        fprintf(stderr,"filter type = %d\n", info_ptr->filter_type);
-        fprintf(stderr,"num colors = %d\n",info_ptr->num_palette);
-        fprintf(stderr,"rowbytes = %d\n", info_ptr->rowbytes);
-        */
-		
+        fprintf(stderr,"num colors = %d\n", num_palette);
+        fprintf(stderr,"rowbytes = %d\n", rowbytes);
     }
 #endif
 
 
 #if 0
-        /* This handles alpha and transparency by replacing it with
+        /* This handles alpha and transparency by replacing it with 
            a background value. */
-        /* its #if'ed out for now cause I don't have anything to
+        /* its #if'ed out for now cause I don't have anything to 
            test it with */
     {
-        png_color_16 my_background, *image_background;
-
-        if (PNG_INFO_bKGD(png_ptr, info_ptr, &image_background) != 0)
-            png_set_background(png_ptr, image_background,
-                               PNG_BACKGROUND_GAMMA_FILE, 1, 1.0);
+        png_color_16 my_background;
+	
+        if (info_ptr->valid & PNG_INFO_bKGD)
+            png_set_background(png_ptr, &(info_ptr->background),
+                               PNG_GAMMA_FILE, 1, 1.0);
         else
             png_set_background(png_ptr, &my_background,
-                               PNG_BACKGROUND_GAMMA_SCREEN, 0, 1.0);
+                               PNG_GAMMA_SCREEN, 0, 1.0);
     }
 #endif
 
@@ -212,7 +235,7 @@ ReadPNG(FILE *infile,int *width, int *height, XColor *colrs)
     if (color_type==PNG_COLOR_TYPE_RGB ||
         color_type==PNG_COLOR_TYPE_RGB_ALPHA) {
 
-        if (png_get_PLTE(png_ptr, info_ptr, &palette, &num_palette) != 0) {
+        if(!have_palette) {
 
 #ifndef DISABLE_TRACE
             if (srcTrace) {
@@ -228,26 +251,21 @@ ReadPNG(FILE *infile,int *width, int *height, XColor *colrs)
                 std_color_cube[i].blue=(i/36)*51;
             }
 
-                /* this should probably be dithering to
+                /* this should probably be dithering to 
                    Rdata.colors_per_inlined_image colors */
-            png_set_quantize(png_ptr, std_color_cube,
-                           216,
-                           216, NULL, 1);
-
+            png_set_quantize(png_ptr, std_color_cube, 216, 216, NULL, 1);
+            
         } else {
 #ifndef DISABLE_TRACE
             if (srcTrace) {
                 fprintf(stderr,"dithering (RGB->file supplied palette)...\n");
             }
 #endif
-
-            png_uint_16p histogram = NULL;
-            png_get_hIST(png_ptr, info_ptr, &histogram);
-            png_set_quantize(png_ptr, palette,
-                           num_palette,
-                           get_pref_int(eCOLORS_PER_INLINED_IMAGE),
-                           histogram, 1);
-
+ 
+            png_get_hIST(png_ptr, info_ptr, &hist);
+            png_set_quantize(png_ptr, palette, num_palette,
+                             get_pref_int(eCOLORS_PER_INLINED_IMAGE), hist, 1);
+            
         }
     }
 
@@ -264,73 +282,75 @@ ReadPNG(FILE *infile,int *width, int *height, XColor *colrs)
     if (get_pref_boolean(eUSE_SCREEN_GAMMA)) { /*SWP*/
         if (bit_depth != 16) {  /* temporary .. glennrp */
             screen_gamma=(double)(get_pref_float(eSCREEN_GAMMA));
-
+            
 #ifndef DISABLE_TRACE
             if (srcTrace) {
                 fprintf(stderr,"screen gamma=%f\n",screen_gamma);
             }
 #endif
-            double image_gamma;
-            if (png_get_gAMA(png_ptr, info_ptr, &image_gamma) != 0) {
+            if (png_get_gAMA(png_ptr, info_ptr, &gamma)) {
 #ifndef DISABLE_TRACE
                 if (srcTrace) {
-                    printf("setting gamma=%f\n", image_gamma);
+                    printf("setting gamma=%f\n", gamma);
                 }
 #endif
-                png_set_gamma(png_ptr, screen_gamma, image_gamma);
+                png_set_gamma(png_ptr, screen_gamma, gamma);
             }
             else {
 #ifndef DISABLE_TRACE
                 if (srcTrace) {
-                    fprintf(stderr,"setting gamma=%f\n",0.45455);
+                    fprintf(stderr,"setting gamma=%f\n",0.45);
                 }
 #endif
-                png_set_gamma(png_ptr, screen_gamma, 0.45455);
+                png_set_gamma(png_ptr, screen_gamma, (double)0.45);
             }
         }
     }
-
+    
     if (interlace_type)
         png_set_interlace_handling(png_ptr);
 
     png_read_update_info(png_ptr, info_ptr);
+    
+    png_get_IHDR(png_ptr, info_ptr, &raw_width, &raw_height, &bit_depth,
+                 &color_type, &interlace_type, &compression_type,
+                 &filter_type);
+    rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+    have_palette = png_get_PLTE(png_ptr, info_ptr, &palette, &num_palette);
 
 #ifndef DISABLE_TRACE
     if (srcTrace) {
-        fprintf(stderr,"\n\nAFTER\nwidth = %ls\n", width);
-        fprintf(stderr,"height = %ls\n", height);
+        fprintf(stderr,"\n\nAFTER\nwidth = %d\n", *width);
+        fprintf(stderr,"height = %d\n", *height);
         fprintf(stderr,"bit depth = %d\n", bit_depth);
         fprintf(stderr,"color type = %d\n", color_type);
+        fprintf(stderr,"compression type = %d\n", compression_type);
+        fprintf(stderr,"filter type = %d\n", filter_type);
         fprintf(stderr,"interlace type = %d\n", interlace_type);
-        /*
-        fprintf(stderr,"compression type = %d\n", info_ptr->compression_type);
-        fprintf(stderr,"filter type = %d\n", info_ptr->filter_type);
-        fprintf(stderr,"num colors = %d\n",info_ptr->num_palette);
-        fprintf(stderr,"rowbytes = %d\n", info_ptr->rowbytes);
-        */
+        fprintf(stderr,"num colors = %d\n",num_palette);
+        fprintf(stderr,"rowbytes = %d\n", rowbytes);
     }
 #endif
 
-        /* allocate the pixel grid which we will need to send to
+        /* allocate the pixel grid which we will need to send to 
            png_read_image(). */
-    int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
-    png_pixels = (png_byte *)malloc(rowbytes *
-                                    (*height) * sizeof(png_byte));
+    png_pixels = (png_byte *)malloc(rowbytes * (*height) * sizeof(png_byte));
+    
 
-
+    row_pointers = (png_byte **) malloc((*height) * sizeof(png_byte *));
     for (i=0; i < *height; i++)
-        row_pointers[i]=png_malloc(png_ptr, rowbytes);
+        row_pointers[i]=png_pixels+(rowbytes*i);
 
-
+    
         /* FINALLY - read the darn thing. */
     png_read_image(png_ptr, row_pointers);
-
-
+    
+    
         /* now that we have the (transformed to 8-bit RGB) image, we have
            to copy the resulting palette to our colormap. */
     if (color_type & PNG_COLOR_MASK_COLOR) {
-        if (png_get_PLTE(png_ptr, info_ptr, palette, num_palette) != 0) {
-
+        if (have_palette) {
+            
             for (i=0; i < num_palette; i++) {
                 colrs[i].red = palette[i].red << 8;
                 colrs[i].green = palette[i].green << 8;
@@ -338,7 +358,7 @@ ReadPNG(FILE *infile,int *width, int *height, XColor *colrs)
                 colrs[i].pixel = i;
                 colrs[i].flags = DoRed|DoGreen|DoBlue;
             }
-
+            
         }
         else {
             for (i=0; i < 216; i++) {
@@ -347,24 +367,24 @@ ReadPNG(FILE *infile,int *width, int *height, XColor *colrs)
                 colrs[i].blue = std_color_cube[i].blue << 8;
                 colrs[i].pixel = i;
                 colrs[i].flags = DoRed|DoGreen|DoBlue;
-            }
+            }	    
         }
     } else {
             /* grayscale image */
-
+        
         for(i=0; i < 256; i++ ) {
             colrs[i].red = i << 8;
-            colrs[i].green = i << 8;
+            colrs[i].green = i << 8; 	    
             colrs[i].blue = i << 8;
             colrs[i].pixel = i;
-            colrs[i].flags = DoRed|DoGreen|DoBlue;
+            colrs[i].flags = DoRed|DoGreen|DoBlue;    
         }
     }
-
+    
         /* Now copy the pixel data from png_pixels to pixmap */
-
+ 
     pixmap = (png_byte *)malloc((*width) * (*height) * sizeof(png_byte));
-
+    
     p = pixmap; q = png_pixels;
 
         /* if there is an alpha channel, we have to get rid of it in the
@@ -383,29 +403,39 @@ ReadPNG(FILE *infile,int *width, int *height, XColor *colrs)
                 q++; /* skip the alpha pixel */
             }
         }
+        
+        free((char *)png_pixels);
     }
     else {
-
+        
 #ifndef DISABLE_TRACE
         if (srcTrace) {
             fprintf(stderr,"No alpha channel\n");
         }
 #endif
-
+        
         for(i=0; i<*height; i++) {
             q = row_pointers[i];
             for(j=0; j<*width; j++) {
                 *p++ = *q++; /*palette index*/
             }
         }
+        
+        free((char *)png_pixels);
+        
     }
 
-    free((char *)png_pixels);
     free((png_byte **)row_pointers);
+    
+        /* clean up after the read, and free any memory allocated */
+    /*png_read_destroy(png_ptr, info_ptr, (png_info *)0);*/
+	png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+    
 
-    /* clean up after the read, and free any memory allocated */
-	png_destroy_read_struct(png_ptr, info_ptr, NULL);
-
+        /* free the structures */
+    /*free((char *)png_ptr);*/
+    free((char *)info_ptr);
+    
     return pixmap;
 }
 

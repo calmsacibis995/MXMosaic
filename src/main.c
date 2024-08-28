@@ -69,7 +69,6 @@
 #include "cciBindings2.h"
 
 #include <signal.h>
-#include <sys/utsname.h>
 #include <string.h>
 #include <malloc.h>
 
@@ -163,8 +162,7 @@ static MO_SIGHANDLER_RETURNTYPE FatalProblem
 #endif /* not __STDC__ */
 {
   fprintf (stderr, "\nCongratulations, you have found a bug in\n");
-  fprintf (stderr, "NCSA Mosaic %s on %s.\n\n", MO_VERSION_STRING,
-           MO_MACHINE_TYPE);
+  fprintf (stderr, "NCSA Mosaic %s on %s.\n\n", MO_VERSION_STRING, MO_MACHINE_TYPE);
   fprintf (stderr, "If a core file was generated in your directory,\n");
   fprintf (stderr, "please do one of the following:\n\n");
   fprintf (stderr, "  %% dbx /path/to/Mosaic /path/to/core\n");
@@ -173,21 +171,20 @@ static MO_SIGHANDLER_RETURNTYPE FatalProblem
   fprintf (stderr, "  %% gdb /path/to/Mosaic /path/to/core\n");
   fprintf (stderr, "  gdb> where\n\n");
   fprintf (stderr, "Mail the results, and a description of what you were doing at the time,\n");
-  fprintf (stderr, "(include any URLs involved!) to %s.\n\nWe thank you for your support.\n\n",
-           MO_DEVELOPER_ADDRESS);
+  fprintf (stderr, "(include any URLs involved!) to %s.\n\nWe thank you for your support.\n\n", MO_DEVELOPER_ADDRESS);
   fprintf (stderr, "...exiting NCSA Mosaic now.\n\n");
 
   RealFatal ();
 }
 
-
-main (int argc, char **argv, char **envp)
+int
+main(int argc, char **argv, char **envp)
 {
-  struct utsname u;
   FILE *fp;
   int i;
 
   printf("MXMosaic %s (%s)\n", MO_VERSION_STRING, MO_MACHINE_TYPE);
+  printf("Binary built %s %s\n", __DATE__, __TIME__);
 	userPath=getenv("PATH");
 
   signal (SIGBUS, FatalProblem);

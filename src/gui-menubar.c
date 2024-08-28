@@ -1632,7 +1632,7 @@ char buf[BUFSIZ];
 	DEFINE_MENUBAR("What's New..." ,"W",menubar_cb,mo_whats_new,NULL)
 	DEFINE_MENUBAR("Demo..." ,"D",menubar_cb,mo_mosaic_demopage,NULL)
 	SPACER()
-	DEFINE_MENUBAR("Help on Version 2.7b5..." ,"V",menubar_cb,mo_help_onversion,NULL)
+	DEFINE_MENUBAR("Help on MXMosaic 2.7b8..." ,"V",menubar_cb,mo_help_onversion,NULL)
 	DEFINE_MENUBAR("On Window..." ,"O",menubar_cb,mo_help_onwindow,NULL)
 	DEFINE_MENUBAR("On FAQ..." ,"F",menubar_cb,mo_help_faq,NULL)
 	SPACER()
@@ -1744,7 +1744,7 @@ char buf[BUFSIZ];
 	DEFINE_MENUBAR("What's New..." ,"W",menubar_cb,mo_whats_new,NULL)
 	DEFINE_MENUBAR("Demo..." ,"D",menubar_cb,mo_mosaic_demopage,NULL)
 	SPACER()
-	DEFINE_MENUBAR("Help on Version 2.7b5..." ,"V",menubar_cb,mo_help_onversion,NULL)
+	DEFINE_MENUBAR("Help on MXMosaic 2.7b8..." ,"V",menubar_cb,mo_help_onversion,NULL)
 	DEFINE_MENUBAR("On Window..." ,"O",menubar_cb,mo_help_onwindow,NULL)
 	DEFINE_MENUBAR("On FAQ..." ,"F",menubar_cb,mo_help_faq,NULL)
 #ifndef PRERELEASE

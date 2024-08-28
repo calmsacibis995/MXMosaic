@@ -52,7 +52,7 @@ int i;
 	}
 #endif
 
-	/* We set up the normal JPEG error routines,
+	/* We set up the normal JPEG error routines, 
 		then override error_exit. */
 	cinfo.err = jpeg_std_error(&jerr.pub);
 	jerr.pub.error_exit = my_error_exit;
@@ -62,7 +62,8 @@ int i;
 	if (setjmp(jerr.setjmp_buffer)) {
 		/* If we get here, the JPEG code has signaled an error. */
     		jpeg_destroy_decompress(&cinfo);
-		fclose(infile);
+		/* LEAVE THE FILE OPEN! Otherwise we get a double-free. */
+		/* NO! fclose(infile); */
 
 		if (retBuffer) {
 			free(retBuffer);
@@ -82,14 +83,14 @@ int i;
 	* See libjpeg.doc for more info.
 	*/
 
-  	cinfo.quantize_colors = TRUE;
+  	cinfo.quantize_colors = TRUE; 
 	/*cinfo.desired_number_of_colors = 50;*/
 	cinfo.desired_number_of_colors = get_pref_int(eCOLORS_PER_INLINED_IMAGE);
 	cinfo.two_pass_quantize = TRUE;
 
 	jpeg_start_decompress(&cinfo);
 
-	if (!(retBuffer = (unsigned char *) malloc(cinfo.output_width
+	if (!(retBuffer = (unsigned char *) malloc(cinfo.output_width 
 			* cinfo.output_height * cinfo.output_components))) {
 		jpeg_destroy_decompress(&cinfo);
 #ifndef DISABLE_TRACE
@@ -103,7 +104,7 @@ int i;
 #ifndef DISABLE_TRACE
 	if (srcTrace) {
 		fprintf(stderr,"buffer size is width=%d x height=%d x depth=%d\n",
-		       cinfo.output_width , cinfo.output_height ,
+		       cinfo.output_width , cinfo.output_height , 
 		       cinfo.output_components);
 	}
 #endif
@@ -141,7 +142,7 @@ int i;
 		}
 	else {
 		for (i=0; i < cinfo.actual_number_of_colors; i++) {
-			colrs[i].red = colrs[i].green =
+			colrs[i].red = colrs[i].green = 
 				colrs[i].blue = cinfo.colormap[0][i] << 8;
 			colrs[i].pixel = i;
 			colrs[i].flags = DoRed|DoGreen|DoBlue;
