@@ -1499,15 +1499,15 @@ char szTime[32];
 		time_t t;
 		t=time(0);
 		ptr=localtime(&t);
-		sprintf(szYear,"%d",1900+ptr->tm_year);
-		sprintf(szDate, "%*s%9s %s %s %s %2.2s, %s", nSpaces, " ", itemsize, szFileInfo, szTime, szMonth, szDay, szYear);
+		snprintf(szYear, sizeof(szYear), "%d",1900+ptr->tm_year);
+		snprintf(szDate, sizeof(szDate), "%*s%9s %s %s %s %2.2s, %s", nSpaces, " ", itemsize, szFileInfo, szTime, szMonth, szDay, szYear);
 	}
 	else if (nTime == 0) {
-		sprintf(szDate, "%*s%9s %s %s %s %2.2s, %s", nSpaces, " ", itemsize, szFileInfo, "     ", szMonth, szDay, szYear);
+		snprintf(szDate, sizeof(szDate), "%*s%9s %s %s %s %2.2s, %s", nSpaces, " ", itemsize, szFileInfo, "     ", szMonth, szDay, szYear);
 	}
 	else {
 		/*nSpaces += strlen(itemsize); */
-		sprintf(szDate, "%*s  %9.9s  %s %s", nSpaces, " ", itemsize, szMonth, szTime);
+		snprintf(szDate, sizeof(szDate), "%*s  %9.9s  %s %s", nSpaces, " ", itemsize, szMonth, szTime);
 	}
 
 	if (usingNLST!=2) {

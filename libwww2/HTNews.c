@@ -1560,7 +1560,7 @@ PRIVATE void read_article ARGS1 (char *, artID)
     if(from) {
       PUTS("<B>From:</B> <I>");
       if (parseemail (from,duff,buf)) {
-	sprintf (line, "<A HREF=\"mailto:%s\"> %s </A>   ", buf, duff);
+	snprintf (line, sizeof(line), "<A HREF=\"mailto:%s\"> %s </A>   ", buf, duff);
 	PUTS (line);
       } else
 	PUTS (from);
@@ -1959,7 +1959,7 @@ PRIVATE void read_list NOARGS
       	      if (n->attribs&naSUBSCRIBED &&
 		  (newsShowAllGroups || n->unread>0
 		   || newsShowReadGroups)) {
-		sprintf(line,"%s % 7ld S <A HREF=\"news:%s\">%s</A> \n",
+		snprintf(line, sizeof(line), "%s % 7ld S <A HREF=\"news:%s\">%s</A> \n",
 			(lastg==1)?"<b>&gt;&gt;&gt;</b>":"   ",
 			n->unread, n->name, elgroup);
 		PUTS (line);
@@ -1967,7 +1967,7 @@ PRIVATE void read_list NOARGS
 		  lastg=2;
 	      }
 	    } else {
-	      sprintf(line,"    % 7d U <A HREF=\"news:%s\">%s</A> \n",
+	      snprintf(line, sizeof(line), "    % 7d U <A HREF=\"news:%s\">%s</A> \n",
 		      last<first?0:last-first, group, elgroup);
 	      PUTS(line);
 	    }
@@ -1998,7 +1998,7 @@ PRIVATE void read_list NOARGS
       /* contact the server about this group */
       sprintf (line, "GROUP %s\r\n", n->name);
       if ((first = response (line)) != 211) {
-	sprintf(line,"??????? ? %s <I>Group not found on server </I>\n", elgroup);
+	snprintf(line, sizeof(line), "??????? ? %s <I>Group not found on server </I>\n", elgroup);
 	PUTS(line);
 	n = nextgroup (n);
 	continue;
@@ -2021,7 +2021,7 @@ PRIVATE void read_list NOARGS
       else if (nn == n && !mark)
 	lastg = 1;
       if (newsShowAllGroups  || n->unread>0 || newsShowReadGroups) {
-	sprintf(line,"%s % 7ld %s <A HREF=\"news:%s\">%s</A> \n",
+	snprintf(line, sizeof(line), "%s % 7ld %s <A HREF=\"news:%s\">%s</A> \n",
 		(lastg==1)? "<b>&gt;&gt;&gt;</b>":"   ",
 		n->unread, n->attribs&naSUBSCRIBED?"S":"U",
 		n->name, elgroup);

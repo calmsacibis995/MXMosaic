@@ -183,7 +183,11 @@ main(int argc, char **argv, char **envp)
   FILE *fp;
   int i;
 
+#ifdef PRERELEASE
+  printf("MXMosaic %s %s (%s)\n", MO_VERSION_STRING, MO_BETA_STRING, MO_MACHINE_TYPE);
+#else
   printf("MXMosaic %s (%s)\n", MO_VERSION_STRING, MO_MACHINE_TYPE);
+#endif
   printf("Binary built %s %s\n", __DATE__, __TIME__);
 	userPath=getenv("PATH");
 
