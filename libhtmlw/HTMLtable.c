@@ -1,6 +1,7 @@
 #include "../config.h"
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include <X11/Xlib.h>
 #include "HTMLP.h"
 #include "HTML.h"
@@ -121,7 +122,7 @@ int y;
 
 #ifndef DISABLE_TRACE
 	if (htmlwTrace) {
-		fprintf(stderr,"PourText: \"%s\" width=%d,height=%d\n",text,width,height);
+		fprintf(stderr,"PourText: \"%s\" width=%d,height=%d\n",text,width,*height);
 	}
 #endif
 

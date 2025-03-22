@@ -63,6 +63,8 @@
 #include "cci.h"
 #include "cciBindings.h"
 
+#include <Xm/List.h>
+
 /*SWP*/
 extern char pre_title[80];
 extern int cci_event;

@@ -120,7 +120,12 @@ typedef enum
 /* -------------------------------- MACROS -------------------------------- */
 /* ------------------------------------------------------------------------ */
 
-#define MO_VERSION_STRING "2.7b8" // SAM
+#if defined(PRERELEASE)
+#define MO_VERSION_STRING "2.7" // SAM
+#define MO_BETA_STRING  "Beta 9"
+#else
+#define MO_VERSION_STRING "2.7"
+#endif
 #define MO_GO_NCSA_COUNT 3  /* Go to the NCSA home page thrice*/
 #define MO_HELP_ON_VERSION_DOCUMENT \
   mo_assemble_help_url ("help-on-version-2.7b5.html")

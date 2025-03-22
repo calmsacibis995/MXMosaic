@@ -3559,7 +3559,11 @@ static mo_window *mo_make_window (Widget parent, mo_window *parentw)
   Atom WM_DELETE_WINDOW;
   char buf[80];
 
-  sprintf(pre_title,"NCSA X Mosaic %s",MO_VERSION_STRING);
+#if defined(PRERELEASE)
+  sprintf(pre_title,"NCSA X Mosaic %s %s",MO_VERSION_STRING, MO_BETA_STRING);
+#else
+  sprintf(pre_title, "NCSA X Mosaic %s\n", MO_VERSION_STRING);
+#endif
   sprintf(buf,"%s: ",pre_title);
   XmxSetArg (XmNtitle, (XtArgVal)buf);
   XmxSetArg (XmNiconName, (XtArgVal)"Mosaic");
@@ -4388,7 +4392,11 @@ splash_goto:
 		goto splash_goto;
 	}
 
-        sprintf(s,"version %s",MO_VERSION_STRING);
+#if defined(PRERELEASE)
+        sprintf(s, "Version %s: %s", MO_VERSION_STRING, MO_BETA_STRING);
+#else
+        sprintf(s, "Version %s", MO_VERSION_STRING);
+#endif
 
         l = strlen(s);
 

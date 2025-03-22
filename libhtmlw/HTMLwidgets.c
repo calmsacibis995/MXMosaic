@@ -66,6 +66,7 @@
 #include <Xm/PushB.h>
 #include <Xm/RowColumn.h>
 #include <Xm/List.h>
+#include <Xm/ScrollBar.h>
 #else
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -4264,8 +4265,7 @@ void HTMLTraverseTabGroups(Widget w, int how)
 	  if(amount > (hw->html.doc_height-ss-5))
 	    amount = hw->html.doc_height-ss-5;
 
-	  XmScrollBarSetValues(hw->html.vbar, amount,
-			       ss, in, pg_in);
+	  XmScrollBarSetValues(hw->html.vbar, amount, ss, in, pg_in, True);
 	}
 
       if(XtClass(lptr->w) == xmScrolledWindowWidgetClass)
@@ -4310,8 +4310,7 @@ void HTMLTraverseTabGroups(Widget w, int how)
 	  if(amount<0)
 	    amount=0;
 
-	  XmScrollBarSetValues(hw->html.vbar, amount,
-			       ss, in, pg_in);
+	  XmScrollBarSetValues(hw->html.vbar, amount, ss, in, pg_in, True);
 	}
 
       if(XtClass(lptr->w) == xmScrolledWindowWidgetClass)
