@@ -4128,6 +4128,8 @@ void mo_do_gui (int argc, char **argv)
     Boolean successful;
     prefsStructP thePrefsStructP;
 
+    XtSetLanguageProc(NULL, NULL, NULL);
+
         /* Loop through the args before passing them off to
      XtAppInitialize() in case we need to catch something first. */
     for (i = 1; i < argc; i++)

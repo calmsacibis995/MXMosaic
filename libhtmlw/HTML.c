@@ -476,121 +476,121 @@ static XtResource resources[] =
 	{	XtNfont,
 		XtCFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.font),
-		XtRString, "-adobe-times-medium-r-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNitalicFont,
 		WbCItalicFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.italic_font),
-		XtRString, "-adobe-times-medium-i-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNboldFont,
 		WbCBoldFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.bold_font),
-		XtRString, "-adobe-times-bold-r-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNmeterFont,
 		WbCMeterFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.meter_font),
-		XtRString, "-adobe-courier-bold-r-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNtoolbarFont,
 		WbCToolbarFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.toolbar_font),
-		XtRString, "-adobe-times-bold-r-normal-*-12-*-*-*-*-*-iso10646-1"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNfixedFont,
 		WbCFixedFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.fixed_font),
-		XtRString, "-adobe-courier-medium-r-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNfixedboldFont,
 		WbCFixedboldFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.fixedbold_font),
-		XtRString, "-adobe-courier-bold-r-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNfixeditalicFont,
 		WbCFixeditalicFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.fixeditalic_font),
-		XtRString, "-adobe-courier-medium-o-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNheader1Font,
 		WbCHeader1Font, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.header1_font),
-		XtRString, "-adobe-times-bold-r-normal-*-24-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNheader2Font,
 		WbCHeader2Font, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.header2_font),
-		XtRString, "-adobe-times-bold-r-normal-*-18-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNheader3Font,
 		WbCHeader3Font, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.header3_font),
-		XtRString, "-adobe-times-bold-r-normal-*-17-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNheader4Font,
 		WbCHeader4Font, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.header4_font),
-		XtRString, "-adobe-times-bold-r-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNheader5Font,
 		WbCHeader5Font, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.header5_font),
-		XtRString, "-adobe-times-bold-r-normal-*-12-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNheader6Font,
 		WbCHeader6Font, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.header6_font),
-		XtRString, "-adobe-times-bold-r-normal-*-10-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNaddressFont,
 		WbCAddressFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.address_font),
-		XtRString, "-adobe-times-medium-i-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNplainFont,
 		WbCPlainFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.plain_font),
-		XtRString, "-adobe-courier-medium-r-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNplainboldFont,
 		WbCPlainboldFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.plainbold_font),
-		XtRString, "-adobe-courier-bold-r-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNplainitalicFont,
 		WbCPlainitalicFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.plainitalic_font),
-		XtRString, "-adobe-courier-medium-o-normal-*-14-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 
 	{	WbNlistingFont,
 		WbCListingFont, XtRFontStruct, sizeof (XFontStruct *),
 		XtOffset (HTMLWidget, html.listing_font),
-		XtRString, "-adobe-courier-medium-r-normal-*-12-*-*-*-*-*-*-*"
+		XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
 	},
 /* amb */
         {       WbNsupSubFont,
                 WbCSupSubFont, XtRFontStruct, sizeof (XFontStruct *),
                 XtOffset (HTMLWidget, html.supsub_font),
-                XtRString, "-adobe-courier-medium-r-normal-*-10-*-*-*-*-*-*-*"
+                XtRString, "-*-unifont-*-*-*-*-17-*-*-*-*-*-iso10646-*"
         },
 /* end amb */
         {       WbNpreviouslyVisitedTestFunction,
