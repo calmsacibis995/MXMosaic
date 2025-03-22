@@ -122,7 +122,7 @@ typedef enum
 
 #if defined(PRERELEASE)
 #define MO_VERSION_STRING "2.7" // SAM
-#define MO_BETA_STRING  "Beta 9"
+#define MO_BETA_STRING  "Beta 10"
 #else
 #define MO_VERSION_STRING "2.7"
 #endif
@@ -185,7 +185,6 @@ typedef enum
 #define GLOBAL_TYPE_MAP "/usr/local/lib/mosaic/mailcap"
 #endif
 
-
 #if defined(bsdi)
 #define MO_MACHINE_TYPE "BSD/OS"
 #endif
@@ -193,7 +192,7 @@ typedef enum
 #define MO_MACHINE_TYPE "HP-UX"
 #endif
 #if defined(__sgi)
-#define MO_MACHINE_TYPE "Silicon Graphics"
+#define MO_MACHINE_TYPE "IRIX"
 #endif
 #if defined(ultrix)
 #define MO_MACHINE_TYPE "DEC Ultrix"
@@ -202,20 +201,20 @@ typedef enum
 #define MO_MACHINE_TYPE "Linux"
 #endif
 #if defined(_IBMR2)
-#define MO_MACHINE_TYPE "RS/6000 AIX"
+#define MO_MACHINE_TYPE "AIX"
 #endif
 #if defined(sun) && !defined(SOLARIS)
-#define MO_MACHINE_TYPE "Sun"
+#define MO_MACHINE_TYPE "SunOS"
 #else
 #if defined(SOLARIS)
-#define MO_MACHINE_TYPE "SOLARIS"
+#define MO_MACHINE_TYPE "Oracle Solaris/illumos"
 #endif
 #endif
 #if defined(__alpha)
-#define MO_MACHINE_TYPE "DEC Alpha"
+#define MO_MACHINE_TYPE "Tru64"
 #endif
 #if defined(NEXT)
-#define MO_MACHINE_TYPE "NeXT BSD"
+#define MO_MACHINE_TYPE "NeXTSTEP"
 #endif
 #if defined(cray)
 #define MO_MACHINE_TYPE "Cray"
@@ -224,15 +223,18 @@ typedef enum
 #define MO_MACHINE_TYPE "VMS"
 #endif
 #if defined(NeXT)
-#define MO_MACHINE_TYPE "NeXT"
+#define MO_MACHINE_TYPE "NeXTSTEP"
 #endif
-#if defined (SCO)
-#if defined (_SCO_DS)
+#if defined(SCO)
+#if defined(_SCO_DS)
 #define MO_MACHINE_TYPE "SCO OpenServer 5"
 #else /* _SCO_DS */
 #define MO_MACHINE_TYPE "SCO Unix"
 #endif /* _SCO_DS */
 #endif /* SCO */
+#if defined(APPLE)
+#define MO_MACHINE_TYPE "Darwin"
+#endif
 
 #ifndef MO_MACHINE_TYPE
 #define MO_MACHINE_TYPE "Unknown Platform"
